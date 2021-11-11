@@ -11,17 +11,16 @@ function ProductDetailsProvider({children}) {
   // console.log({productsState :products});
 
     useEffect(() => {
-        async function fetchProducts(){
-          const result = await getAllProducts()
-          setProducts(result.data)
-        }
-    
         fetchProducts()
     },[])
 
+    async function fetchProducts(){
+      const result = await getAllProducts()
+      setProducts(result.data)
+    }
 
     return (
-      <ProductContext.Provider value={{products}}>
+      <ProductContext.Provider value={{products, fetchProducts}}>
         {children}
       </ProductContext.Provider>
     )

@@ -1,42 +1,57 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { FlatList, Image, Pressable, StyleSheet, View } from 'react-native'
+import { ActivityIndicator, FlatList, Image, Pressable, RefreshControl, StyleSheet, View } from 'react-native'
 import AppText from '../Components/AppText'
 import ProductCard from '../Components/ProductCard'
 import Screen from '../Components/Screen'
 import colors from '../config/colors'
 import { ProductContext } from '../context/ProductDetailsProvider'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
+import AppActivityIndicator from '../Components/AppActivityIndicator'
+
 
 function ProductListing() {
-    const {products} = useContext(ProductContext)
+   // all products
+   const {products, fetchProducts} = useContext(ProductContext)
     
+   // set category 
    useEffect(() => {
       const productcategory = products.map(item => item.category)
-      setCategories([...new Set(productcategory)])
+      setCategories(['all', ...new Set(productcategory)])
    }, [products])
 
-   useEffect(() => {
-      setSelectedCategory(categories[0])
-   },[categories])
+   // category buttons
+   let [categories, setCategories] = useState([])
 
-    let [categories, setCategories] = useState([])
+   //  currently selected category to filter products
+    const [selectedCategory, setSelectedCategory] = useState('all')
 
-    const [selectedCategory, setSelectedCategory] = useState('')
-    console.log({selectedCategory});
-
+   //  filtered products
     const [filteredProducts, setFilteredProducts] = useState([])
 
+   //  set filtered product
     useEffect(() => {
       setFilteredProducts(products.filter(item => item.category == selectedCategory))
     }, [selectedCategory])
 
 
+    const [refreshing, setRefreshing] = React.useState(false);
+
+    const onRefresh = React.useCallback(() => {
+      fetchProducts()
+      // console.log("refreshed");
+    }, []);
+  
 
     return (
        <Screen style={styles.container}>
-            {/* <AppText>Hello Dive, have a nice day :</AppText> */}
+         {/* <AppText>Hello Dive, have a nice day :</AppText> */}
+         <View style={styles.topsection}>
+            <MaterialCommunityIcons name="menu" size={30} color={colors.gray}/>
+            <MaterialCommunityIcons name="cart" size={25} color={colors.gray}/>
+         </View>
          { products.length > 0 ? <View>
             <FlatList
-               style={styles.categoryContainer}
+               contentContainerStyle={styles.categoryContainer}
                showsHorizontalScrollIndicator={false}
                horizontal
                data={categories}
@@ -48,17 +63,18 @@ function ProductListing() {
                )}
             />
             <FlatList
+               // onMomentumScrollBegin={() => console.log("scroll started")}
+               refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+               contentContainerStyle={styles.productlist}
                showsVerticalScrollIndicator={false}
-               data={filteredProducts}
+               data={selectedCategory === "all" ? products : filteredProducts}
                numColumns={2}
                keyExtractor={(item) => item.id}
                renderItem={({item}) => <ProductCard item={item}/>}
             />
          </View> 
             : 
-         <View>
-            <AppText>Loading...</AppText>
-         </View>
+            <AppActivityIndicator visible={true}/>
          }
        </Screen>
     )
@@ -66,7 +82,7 @@ function ProductListing() {
 
 const styles = StyleSheet.create({
    container:{
-       padding: 10,
+      //  padding: 10,
    },
    category:{
       backgroundColor: colors.secondary,
@@ -83,7 +99,20 @@ const styles = StyleSheet.create({
    categoryContainer:{
       // backgroundColor:"gold",
       paddingVertical:10,
+      paddingHorizontal:10,
       // marginVertical:10,
+   },
+   productlist:{
+      // padding: 10,
+      justifyContent:"center",
+      alignItems:"center"
+   },
+   topsection:{
+      flexDirection:"row",
+      alignItems:"center",
+      justifyContent:"space-between",
+      paddingHorizontal:15,
+      paddingTop:10
    }
 })
 
