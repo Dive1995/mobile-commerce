@@ -1,15 +1,21 @@
 import React from 'react'
-import { View, StyleSheet, Image } from 'react-native'
+import { View, StyleSheet, Image, Pressable } from 'react-native'
+import { useNavigation } from '@react-navigation/native';
+
 import colors from '../config/colors'
 import AppText from './AppText'
 
+
 function ProductCard({item}) {
+    const navigation = useNavigation()
     return (
-       <View style={styles.container}>
-            <Image style={styles.image} source={{uri: item.image}}/>
-            <AppText style={styles.title}>{item.title}</AppText>
-            <AppText style={styles.price}>${item.price}</AppText>
-       </View>
+       <Pressable onPress={() => navigation.navigate("Product", item)}>
+            <View style={styles.container}>
+                <Image style={styles.image} source={{uri: item.image}}/>
+                <AppText style={styles.title}>{item.title}</AppText>
+                <AppText style={styles.price}>${item.price}</AppText>
+            </View>
+       </Pressable>
     )
 }
 

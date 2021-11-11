@@ -9,7 +9,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons'
 import AppActivityIndicator from '../Components/AppActivityIndicator'
 
 
-function ProductListing() {
+function ProductListing({ navigation }) {
    // all products
    const {products, fetchProducts} = useContext(ProductContext)
     
@@ -46,8 +46,12 @@ function ProductListing() {
        <Screen style={styles.container}>
          {/* <AppText>Hello Dive, have a nice day :</AppText> */}
          <View style={styles.topsection}>
-            <MaterialCommunityIcons name="menu" size={30} color={colors.gray}/>
-            <MaterialCommunityIcons name="cart" size={25} color={colors.gray}/>
+            <Pressable onPress={() => console.log("drawer")}>
+               <MaterialCommunityIcons name="menu" size={30} color={colors.gray}/>
+            </Pressable>
+            <Pressable onPress={() => navigation.navigate("Cart")}>
+               <MaterialCommunityIcons name="cart" size={25} color={colors.gray}/>
+            </Pressable>
          </View>
          { products.length > 0 ? <View>
             <FlatList
