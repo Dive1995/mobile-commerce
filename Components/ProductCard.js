@@ -21,7 +21,7 @@ function ProductCard({item}) {
 
 const styles = StyleSheet.create({
    container:{
-    // backgroundColor:"red",
+    backgroundColor:colors.white,
     borderRadius:15,
     borderColor: colors.gray,
     borderWidth:1,

@@ -7,21 +7,13 @@ import colors from '../config/colors'
 import { ProductContext } from '../context/ProductDetailsProvider'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import AppActivityIndicator from '../Components/AppActivityIndicator'
+import CartButton from '../Components/CartButton'
 
 
 function ProductListing({ navigation }) {
    // all products
-   const {products, fetchProducts} = useContext(ProductContext)
+   const {categories, products, fetchProducts} = useContext(ProductContext)
     
-   // set category 
-   useEffect(() => {
-      const productcategory = products?.map(item => item.category)
-      setCategories(['all', ...new Set(productcategory)])
-   }, [products])
-
-   // category buttons
-   let [categories, setCategories] = useState([])
-
    //  currently selected category to filter products
     const [selectedCategory, setSelectedCategory] = useState('all')
 
@@ -49,9 +41,10 @@ function ProductListing({ navigation }) {
             <Pressable onPress={() => console.log("drawer")}>
                <MaterialCommunityIcons name="menu" size={30} color={colors.gray}/>
             </Pressable>
-            <Pressable onPress={() => navigation.navigate("Cart")}>
+            {/* <Pressable onPress={() => navigation.navigate("Cart")}>
                <MaterialCommunityIcons name="cart" size={25} color={colors.gray}/>
-            </Pressable>
+            </Pressable> */}
+            <CartButton style={{top: 10, right: 15}}/>
          </View>
          { products?.length > 0 ? <View>
             <FlatList
@@ -59,7 +52,7 @@ function ProductListing({ navigation }) {
                showsHorizontalScrollIndicator={false}
                horizontal
                data={categories}
-               keyExtractor={(item) => item}
+               keyExtractor={(item) => item.id}
                renderItem={({item}) => (
                   <Pressable onPress={() => setSelectedCategory(item)} style={[styles.category, selectedCategory == item ? {backgroundColor:colors.primary} : null]}>
                      <AppText style={[{fontSize:12, textTransform:"capitalize", color: colors.black}, selectedCategory == item ? {fontWeight:"bold"} : null]}>{item}</AppText>
@@ -87,6 +80,7 @@ function ProductListing({ navigation }) {
 const styles = StyleSheet.create({
    container:{
       //  padding: 10,
+      // backgroundColor: colors.light
    },
    category:{
       backgroundColor: colors.secondary,

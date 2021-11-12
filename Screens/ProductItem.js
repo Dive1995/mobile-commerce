@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { View, StyleSheet, Image, Pressable, ScrollView } from 'react-native'
 import AppButton from '../Components/AppButton';
 import AppText from '../Components/AppText'
@@ -6,10 +6,12 @@ import BackButton from '../Components/BackButton';
 import CartButton from '../Components/CartButton';
 import Screen from '../Components/Screen'
 import colors from '../config/colors';
+import { ProductContext } from '../context/ProductDetailsProvider';
 
 function ProductItem({route}) {
    const item = route.params;
    const [showMore, setShowMore] = useState(false)
+   const {addToCart} = useContext(ProductContext)
 
 
    useEffect(() => {
@@ -25,7 +27,7 @@ function ProductItem({route}) {
        <Screen style={styles.container}>
          <BackButton/>
          <CartButton/>
-         <ScrollView>
+         <ScrollView contentContainerStyle={{flex:1}}>
             <View style={styles.imageContainer}>
                <Image style={styles.image} source={{uri: item?.image}}/>
             </View>
@@ -37,7 +39,7 @@ function ProductItem({route}) {
             </View>
          </ScrollView>
          <View style={styles.buttonContainer}>
-            <AppButton title="Add to Cart" onPress={() => console.log("add item to cart")}/>
+            <AppButton title="Add to Cart" onPress={() => addToCart(item?.id)}/>
          </View>
        </Screen>
     )
@@ -51,11 +53,16 @@ const styles = StyleSheet.create({
       right:20
    },
    container:{
-      // backgroundColor:"red"
-      paddingHorizontal:20
+      // backgroundColor:colors.light,
+      // paddingHorizontal:20
    },
    card:{
       marginTop: 10,
+      backgroundColor:colors.light,
+      borderTopLeftRadius:30,
+      borderTopRightRadius:30,
+      paddingHorizontal:20,
+      flex:1
    },
    image:{
       width:"100%",
@@ -64,14 +71,15 @@ const styles = StyleSheet.create({
    },
    imageContainer:{
       paddingTop:60,
-      // backgroundColor:"red",
+      paddingBottom:10,
+      backgroundColor: colors.white,
       height:450,
       width:"100%",
    },
    title:{
       fontSize:20,
       fontWeight:"bold",
-      marginTop:20,
+      marginTop:25,
       
    },
    description:{
