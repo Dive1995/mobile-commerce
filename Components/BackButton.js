@@ -19,9 +19,9 @@ const styles = StyleSheet.create({
        position: "absolute",
        top:30,
        left:15,
-    //    backgroundColor: colors.secondary,
-       borderRadius:30,
-       padding:3,
+    //    backgroundColor: colors.light,
+    //    borderRadius:30,
+    //    padding:3,
        zIndex: 2,
    }
 })

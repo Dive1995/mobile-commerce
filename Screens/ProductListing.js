@@ -15,7 +15,7 @@ function ProductListing({ navigation }) {
     
    // set category 
    useEffect(() => {
-      const productcategory = products.map(item => item.category)
+      const productcategory = products?.map(item => item.category)
       setCategories(['all', ...new Set(productcategory)])
    }, [products])
 
@@ -30,7 +30,7 @@ function ProductListing({ navigation }) {
 
    //  set filtered product
     useEffect(() => {
-      setFilteredProducts(products.filter(item => item.category == selectedCategory))
+      setFilteredProducts(products?.filter(item => item.category == selectedCategory))
     }, [selectedCategory])
 
 
@@ -53,7 +53,7 @@ function ProductListing({ navigation }) {
                <MaterialCommunityIcons name="cart" size={25} color={colors.gray}/>
             </Pressable>
          </View>
-         { products.length > 0 ? <View>
+         { products?.length > 0 ? <View>
             <FlatList
                contentContainerStyle={styles.categoryContainer}
                showsHorizontalScrollIndicator={false}
@@ -109,7 +109,8 @@ const styles = StyleSheet.create({
    productlist:{
       // padding: 10,
       justifyContent:"center",
-      alignItems:"center"
+      alignItems:"center",
+      marginBottom:90
    },
    topsection:{
       flexDirection:"row",
