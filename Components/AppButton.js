@@ -1,14 +1,14 @@
 import React from 'react'
 import { View, StyleSheet, Pressable } from 'react-native'
-import { MaterialCommunityIcons } from "@expo/vector-icons"
+import { MaterialIcons } from "@expo/vector-icons"
 import colors from '../config/colors'
 import AppText from './AppText'
 
-function AppButton({onPress, title, backgroundColor = colors.primary, color= colors.white}) {
+function AppButton({onPress, title, backgroundColor = colors.primary, color= colors.white, icon="shopping-cart"}) {
     return (
        <Pressable onPress={onPress} style={[styles.container, {backgroundColor}]}>
         <AppText style={[styles.text, {color}]}>{title}</AppText>
-        <MaterialCommunityIcons name="cart" size={20} color={color}/>
+        <MaterialIcons name={icon} size={20} color={color}/>
        </Pressable>
     )
 }

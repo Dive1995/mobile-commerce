@@ -7,6 +7,7 @@ import CartButton from '../Components/CartButton';
 import Screen from '../Components/Screen'
 import colors from '../config/colors';
 import { ProductContext } from '../context/ProductDetailsProvider';
+import { Rating, AirbnbRating } from 'react-native-ratings';
 
 function ProductItem({route}) {
    const item = route.params;
@@ -33,6 +34,19 @@ function ProductItem({route}) {
             </View>
             <View style={styles.card}>
                <AppText style={styles.title}>{item?.title}</AppText>
+               <View style={{flexDirection:"row", justifyContent:"space-between"}}>
+                  <Rating
+                     readonly={true}
+                     type='custom'
+                     ratingBackgroundColor='#c8c7c8'
+                     ratingCount={5}
+                     startingValue={item.rating.rate}
+                     tintColor={colors.light}
+                     size={10}
+                     style={{ width:160, paddingLeft:30  }}
+                  />
+                  <AppText style={{marginVertical:10, fontSize:14}}>Out of {item?.rating.count} reviews</AppText>
+               </View>
                <AppText style={styles.price}>$ {item?.price}</AppText>
                <AppText style={[styles.description, showMore ? {height: 40, lineHeight:20} : {marginBottom: 50}]}>{item?.description}</AppText>
                {showMore && <Pressable onPress={readMore}><AppText style={styles.showMore}>{showMore ? "Show More" : "Show Less"}</AppText></Pressable>}
@@ -92,7 +106,8 @@ const styles = StyleSheet.create({
    },
    price:{
       color: colors.primary,
-      fontWeight:"bold"
+      fontWeight:"bold",
+      fontSize:20
    },
    showMore:{
       color: colors.gray,

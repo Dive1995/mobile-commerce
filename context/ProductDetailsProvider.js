@@ -7,20 +7,20 @@ import { getAllProducts } from '../api/products';
 export const ProductContext = createContext()
 
 function reducer(state, action){
+  // Fetch data from API
   if(action.type === "FetchData"){
     return {...state, products: action.payload}
   }
+  // Set category buttons
   else if(action.type === "SET_CATEGORY"){
     return {...state, categories: [...state.categories, ...action.payload]}
   }
+  // Add item to cart
   else if(action.type === "AddToCart"){
-    console.log("Adding item to the cart " + action.payload);
-
     // check if the item already is already in the cart
     const alreadyInCart = state.cart.filter((item) => item.id === action.payload);
 
     if(alreadyInCart?.length > 0){
-      console.log("Already added");
       alert("Already added")
       return state;
     }
@@ -33,6 +33,7 @@ function reducer(state, action){
     
     return {...state, cart: [...state.cart, ...updatedCartItem]}
   }
+  // Increase item 
   else if(action.type === "IncreaseCount"){
     const updatedItem = state.cart.map((item) => {
       if(item.id === action.payload){
@@ -42,6 +43,7 @@ function reducer(state, action){
     })
     return {...state, cart: updatedItem}
   }
+  // Decrease item
   else if(action.type === "DecreaseCount"){
     const updatedItem = state.cart.map((item) => {
       if(item.id === action.payload){
@@ -51,6 +53,7 @@ function reducer(state, action){
     })
     return {...state, cart: updatedItem}
   }
+  // Delete item in cart
   else if(action.type === "DeleteItem"){
     console.log("deleteing item")
     const newCart = state.cart.filter((item) => item.id !== action.payload);

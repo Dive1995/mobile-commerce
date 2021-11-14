@@ -7,7 +7,8 @@ import AppText from './AppText'
 
 
 function ProductCard({item}) {
-    const navigation = useNavigation()
+    const navigation = useNavigation();
+
     return (
        <Pressable onPress={() => navigation.navigate("Product", item)}>
             <View style={styles.container}>

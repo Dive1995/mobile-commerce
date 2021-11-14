@@ -52,7 +52,7 @@ function ProductListing({ navigation }) {
                showsHorizontalScrollIndicator={false}
                horizontal
                data={categories}
-               keyExtractor={(item) => item.id}
+               keyExtractor={(item) => item}
                renderItem={({item}) => (
                   <Pressable onPress={() => setSelectedCategory(item)} style={[styles.category, selectedCategory == item ? {backgroundColor:colors.primary} : null]}>
                      <AppText style={[{fontSize:12, textTransform:"capitalize", color: colors.black}, selectedCategory == item ? {fontWeight:"bold"} : null]}>{item}</AppText>
