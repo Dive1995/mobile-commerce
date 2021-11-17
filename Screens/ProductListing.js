@@ -60,7 +60,6 @@ function ProductListing({ navigation }) {
                )}
             />
             <FlatList
-               // onMomentumScrollBegin={() => console.log("scroll started")}
                refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
                contentContainerStyle={styles.productlist}
                showsVerticalScrollIndicator={false}
